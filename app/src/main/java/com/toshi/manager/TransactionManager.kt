@@ -57,7 +57,7 @@ import rx.subscriptions.CompositeSubscription
 class TransactionManager(
         private val ethService: EthereumInterface = EthereumService.getApi(),
         private val pendingTransactionStore: PendingTransactionStore = PendingTransactionStore(),
-        private val transactionSigner: TransactionSigner = TransactionSigner(),
+        private val transactionSigner: TransactionSigner = TransactionSigner(ethService),
         private val incomingTransactionManager: IncomingTransactionManager = IncomingTransactionManager(pendingTransactionStore),
         private val outgoingTransactionManager: OutgoingTransactionManager = OutgoingTransactionManager(pendingTransactionStore, transactionSigner),
         private val updateTransactionManager: UpdateTransactionManager = UpdateTransactionManager(pendingTransactionStore),
