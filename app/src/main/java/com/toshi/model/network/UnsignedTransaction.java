@@ -27,6 +27,15 @@ public class UnsignedTransaction {
     private String nonce;
     private String value;
 
+    public UnsignedTransaction(final String tx, final String gas, final String gasPrice,
+                               final String nonce, final String value) {
+        this.tx = tx;
+        this.gas = gas;
+        this.gasPrice = gasPrice;
+        this.nonce = nonce;
+        this.value = value;
+    }
+
     public String getTransaction() {
         return this.tx;
     }
