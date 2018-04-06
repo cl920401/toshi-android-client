@@ -56,15 +56,15 @@ import rx.subscriptions.CompositeSubscription
 
 class TransactionManager(
         private val ethService: EthereumInterface = EthereumService.getApi(),
+        private val pendingTransactionStore: PendingTransactionStore = PendingTransactionStore(),
+        private val transactionSigner: TransactionSigner = TransactionSigner(),
+        private val incomingTransactionManager: IncomingTransactionManager = IncomingTransactionManager(pendingTransactionStore),
+        private val outgoingTransactionManager: OutgoingTransactionManager = OutgoingTransactionManager(pendingTransactionStore, transactionSigner),
+        private val updateTransactionManager: UpdateTransactionManager = UpdateTransactionManager(pendingTransactionStore),
         private val scheduler: Scheduler = Schedulers.io()
 ) {
 
-    private val pendingTransactionStore: PendingTransactionStore
-    private val transactionSigner: TransactionSigner
-    private val incomingTransactionManager: IncomingTransactionManager
-    private val outgoingTransactionManager: OutgoingTransactionManager
-    private val updateTransactionManager: UpdateTransactionManager
-    private val subscriptions by lazy { CompositeSubscription() }
+    // Todo: Pass BalanceManager and RecipientManager in constructor
     private val paymentTaskBuilder by lazy {
         PaymentTaskBuilder(
                 this,
@@ -73,14 +73,7 @@ class TransactionManager(
                 TransactionRequestBuilder()
         )
     }
-
-    init {
-        pendingTransactionStore = PendingTransactionStore()
-        transactionSigner = TransactionSigner()
-        incomingTransactionManager = IncomingTransactionManager(pendingTransactionStore)
-        outgoingTransactionManager = OutgoingTransactionManager(pendingTransactionStore, transactionSigner)
-        updateTransactionManager = UpdateTransactionManager(pendingTransactionStore)
-    }
+    private val subscriptions by lazy { CompositeSubscription() }
 
     fun init(wallet: HDWallet): TransactionManager {
         transactionSigner.wallet = wallet
