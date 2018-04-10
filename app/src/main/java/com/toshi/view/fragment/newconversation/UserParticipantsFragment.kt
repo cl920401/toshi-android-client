@@ -17,36 +17,21 @@
 
 package com.toshi.view.fragment.newconversation
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.toshi.R
-import com.toshi.extensions.addHorizontalLineDivider
-import com.toshi.extensions.isVisible
-import com.toshi.model.local.User
+import com.toshi.extensions.startExternalActivity
 import com.toshi.util.KeyboardUtil
 import com.toshi.view.activity.ConversationSetupActivity
-import com.toshi.view.adapter.UserAdapter
-import com.toshi.viewModel.UserParticipantsViewModel
-import kotlinx.android.synthetic.main.fragment_user_participants.clearButton
 import kotlinx.android.synthetic.main.fragment_user_participants.closeButton
+import kotlinx.android.synthetic.main.fragment_user_participants.inviteFriend
 import kotlinx.android.synthetic.main.fragment_user_participants.newGroup
-import kotlinx.android.synthetic.main.fragment_user_participants.search
-import kotlinx.android.synthetic.main.fragment_user_participants.searchResults
 
 class UserParticipantsFragment : Fragment() {
-
-    private lateinit var viewModel: UserParticipantsViewModel
-    private lateinit var userAdapter: UserAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_user_participants, container, false)
@@ -55,21 +40,13 @@ class UserParticipantsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = init()
 
     private fun init() {
-        val activity = activity ?: return
-        initViewModel(activity)
         initClickListeners()
-        initRecyclerView()
-        initObservers()
-    }
-
-    private fun initViewModel(activity: FragmentActivity) {
-        viewModel = ViewModelProviders.of(activity).get(UserParticipantsViewModel::class.java)
     }
 
     private fun initClickListeners() {
         closeButton.setOnClickListener { handleCloseClicked(it) }
-        clearButton.setOnClickListener { search.text = null }
         newGroup.setOnClickListener { handleNewGroupClicked() }
+        inviteFriend.setOnClickListener { handleInviteFriends() }
     }
 
     private fun handleCloseClicked(v: View?) {
@@ -79,44 +56,9 @@ class UserParticipantsFragment : Fragment() {
 
     private fun handleNewGroupClicked() = (this.activity as ConversationSetupActivity).openNewGroupFlow()
 
-    private fun initRecyclerView() {
-        userAdapter = UserAdapter().setOnItemClickListener(this::handleUserClicked)
-        searchResults.apply {
-            layoutManager = LinearLayoutManager(this.context)
-            itemAnimator = DefaultItemAnimator()
-            adapter = userAdapter
-            addHorizontalLineDivider()
-        }
+    private fun handleInviteFriends() = startExternalActivity {
+        action = Intent.ACTION_SEND
+        type = "text/plain"
+        putExtra(Intent.EXTRA_TEXT, getString(R.string.invite_friends_intent_message))
     }
-
-    private fun handleUserClicked(user: User) = (this.activity as ConversationSetupActivity).openConversation(user)
-
-    private fun initObservers() {
-        initSearchListener()
-        viewModel.searchResults.observe(this, Observer { searchResults ->
-            searchResults?.let { handleSearchResults(it) }
-        })
-    }
-
-    private fun initSearchListener() = search.addTextChangedListener(textWatcher)
-
-    private val textWatcher = object : TextWatcher {
-        override fun afterTextChanged(s: Editable) = updateSearchUi(s.toString().isEmpty())
-        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) = viewModel.queryUpdated(s)
-    }
-
-    private fun updateSearchUi(isQueryEmpty: Boolean) {
-        clearButton?.isVisible(isQueryEmpty)
-        if (isQueryEmpty) userAdapter.clear()
-    }
-
-    private fun handleSearchResults(searchResults: List<User>) = userAdapter.setUsers(searchResults)
-
-    override fun onDestroyView() {
-        removeSearchListener()
-        super.onDestroyView()
-    }
-
-    private fun removeSearchListener() = search.addTextChangedListener(textWatcher)
 }
