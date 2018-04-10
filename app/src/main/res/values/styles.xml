@@ -299,4 +299,9 @@
         <item name="android:layout_width">0dp</item>
     </style>
 
+    <style name="Border">
+        <item name="android:background">@color/border_color</item>
+        <item name="android:layout_height">@dimen/border_height_default</item>
+    </style>
+
 </resources>
