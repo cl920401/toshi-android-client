@@ -18,6 +18,6 @@
 package com.toshi.model.network.dapp
 
 data class Dapps(
-        val dapps: List<Dapp> = emptyList(),
+        val dapps: MutableList<Dapp> = mutableListOf(),
         val categories: Map<Int, String> = emptyMap()
 )

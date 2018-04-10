@@ -22,5 +22,5 @@ import com.squareup.moshi.Json
 data class DappSection(
         @Json(name = "category_id")
         val categoryId: Int = -1,
-        val dapps: List<Dapp> = emptyList()
+        val dapps: MutableList<Dapp> = mutableListOf()
 )
