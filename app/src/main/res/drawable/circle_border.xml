@@ -18,6 +18,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
     <stroke
-        android:width="@dimen/border_width_default"
+        android:width="@dimen/border_height_default"
         android:color="@color/divider"/>
 </shape>
