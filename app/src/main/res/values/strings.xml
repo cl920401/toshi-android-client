@@ -375,4 +375,5 @@
     <string name="web_view_disabled">Not supported</string>
     <string name="start_user_search">Find People, Groups &amp; Bots</string>
     <string name="invite_friend_cta">Invite a Friend</string>
+    <string name="start_new_group">Start a New Group</string>
 </resources>

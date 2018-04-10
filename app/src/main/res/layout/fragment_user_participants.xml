@@ -29,14 +29,16 @@
         android:layout_height="?attr/actionBarSize"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        style="@style/Toolbar">
+        style="@style/TransparentToolbar"
+        android:background="@color/windowBackground"
+        android:elevation="2dp">
 
         <ImageButton
             android:id="@+id/closeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="fitCenter"
-            android:tint="@color/textColorContrast"
+            android:tint="@color/icon_tint_dark"
             app:srcCompat="@drawable/ic_arrow_back"
             style="@style/closeButtonStyle"/>
 
@@ -48,101 +50,86 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Toolbar.TitleText"
+            style="@style/TransparentToolbar.TitleText"
             android:text="@string/new_chat"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:tint="@color/icon_tint_dark"
+            app:srcCompat="@drawable/ic_search"/>
 
     </LinearLayout>
 
-    <android.support.design.widget.CoordinatorLayout
+    <LinearLayout
+        android:id="@+id/newGroup"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
 
-        <android.support.design.widget.AppBarLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:layout_height="@dimen/avatar_size_small"
+            android:layout_width="@dimen/avatar_size_small"
+            android:padding="10dp"
+            android:background="@drawable/circle_border"
+            android:tint="@color/colorPrimary"
+            app:srcCompat="@drawable/ic_group_add"/>
+
+        <android.support.v4.widget.Space
+            android:layout_width="12dp"
+            android:layout_height="0dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/windowBackground"
-            app:elevation="0dp">
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:text="@string/start_new_group"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@color/input_bg"
-                app:layout_scrollFlags="scroll"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    </LinearLayout>
 
-                <EditText
-                    android:id="@+id/search"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="54dp"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:background="@color/input_bg"
-                    android:singleLine="true"
-                    android:maxLines="1"
-                    android:imeOptions="actionDone"
-                    android:textSize="16sp"
-                    android:hint="@string/search_people"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider"
+        android:layout_marginLeft="72dp"/>
 
-                <ImageButton
-                    android:id="@+id/clearButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/searchClearButton"
-                    app:srcCompat="@drawable/ic_clear"
-                    tools:visibility="visible" />
+    <LinearLayout
+        android:id="@+id/inviteFriend"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
 
-            </LinearLayout>
+        <ImageView
+            android:layout_height="@dimen/avatar_size_small"
+            android:layout_width="@dimen/avatar_size_small"
+            android:padding="10dp"
+            android:background="@drawable/circle_border"
+            android:tint="@color/colorPrimary"
+            app:srcCompat="@drawable/ic_add_person"/>
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"
-                app:layout_scrollFlags="scroll"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                android:background="@color/divider"/>
+        <android.support.v4.widget.Space
+            android:layout_width="12dp"
+            android:layout_height="0dp"/>
 
-            <LinearLayout
-                android:id="@+id/newGroup"
-                android:layout_width="match_parent"
-                android:layout_height="72dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                tools:visibility="visible"
-                app:layout_scrollFlags="scroll"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:text="@string/invite_friend_cta"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/ic_group_add"/>
-
-                <android.support.v4.widget.Space
-                    android:layout_width="12dp"
-                    android:layout_height="match_parent"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="16sp"
-                    android:text="@string/new_group"/>
-
-            </LinearLayout>
-
-        </android.support.design.widget.AppBarLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/searchResults"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
-    </android.support.design.widget.CoordinatorLayout>
+    </LinearLayout>
 </LinearLayout>
