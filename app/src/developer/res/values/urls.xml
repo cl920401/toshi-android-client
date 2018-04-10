@@ -29,4 +29,6 @@
     <string name="rcp_url">https://node.service.toshi.org/ropsten</string>
     <string name="net_version">3</string>
     <string name="google_search_url">https://www.google.com/search?q=%1$s</string>
+    <string name="coinbase_dapp_host">buy.coinbase.com</string>
+    <string name="coinbase_dapp_url">https://buy.coinbase.com?code=9a6fb1e3-af41-5677-9b67-8c8a0e365771\u0026address=</string>
 </resources>
