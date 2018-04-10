@@ -23,7 +23,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_item_height_default"
-    android:background="@color/windowBackground">
+    android:background="@color/windowBackground"
+    android:foreground="?android:attr/selectableItemBackground"
+    >
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avatar"
