@@ -17,35 +17,38 @@
   ~     along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_item_height_default"
-    android:gravity="center_vertical"
-    android:paddingRight="@dimen/margin_primary"
-    android:paddingLeft="@dimen/margin_primary"
     android:background="@color/windowBackground">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avatar"
         android:layout_width="@dimen/avatar_size_small"
         android:layout_height="@dimen/avatar_size_small"
-        app:civ_border_width="@dimen/border_width_default"
+        android:layout_marginLeft="@dimen/margin_primary"
+        android:layout_marginStart="@dimen/margin_three_quarters"
+        app:layout_constraintBottom_toTopOf="@+id/divider"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:civ_border_color="@color/divider"
+        app:civ_border_width="@dimen/border_height_default"
         tools:src="@mipmap/ic_launcher"/>
 
-    <android.support.v4.widget.Space
-        android:layout_width="@dimen/margin_three_quarters"
-        android:layout_height="match_parent"/>
-
     <LinearLayout
-        android:layout_width="0dp"
+        android:id="@+id/textViews"
+        android:layout_width="@dimen/match_constraints"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/divider"
+        app:layout_constraintLeft_toRightOf="@id/avatar"
+        app:layout_constraintRight_toLeftOf="@id/info"
+        android:layout_marginLeft="@dimen/margin_three_quarters"
+        android:layout_marginStart="@dimen/margin_three_quarters"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/name"
@@ -64,16 +67,22 @@
             android:textSize="14sp"
             tools:text="Damn Daniel! Back at it again with the white vans."
             style="@style/NormalEllipsizeEndStyle"/>
+
     </LinearLayout>
 
-    <android.support.v4.widget.Space
-        android:layout_width="@dimen/margin_three_quarters"
-        android:layout_height="match_parent"/>
-
     <LinearLayout
+        android:id="@+id/info"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_three_quarters"
+        android:layout_marginStart="@dimen/margin_three_quarters"
+        android:layout_marginRight="@dimen/margin_primary"
+        android:layout_marginEnd="@dimen/margin_primary"
         android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/divider"
+        app:layout_constraintLeft_toRightOf="@id/textViews"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:gravity="right">
 
         <TextView
@@ -98,4 +107,16 @@
             tools:text="99"/>
     </LinearLayout>
 
-</LinearLayout>
+    <View
+        android:id="@+id/divider"
+        style="@style/Border"
+        android:layout_width="@dimen/match_constraints"
+        android:layout_marginLeft="@dimen/border_left_margin_with_small_avatar"
+        android:layout_marginStart="@dimen/border_left_margin_with_small_avatar"
+        android:layout_marginRight="@dimen/margin_primary"
+        android:layout_marginEnd="@dimen/margin_primary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

@@ -76,10 +76,16 @@
     <dimen name="margin_half">8dp</dimen>
     <dimen name="margin_quarter">4dp</dimen>
 
+    <!-- Size which will allow a ConstraintLayout to size the element-->
+    <dimen name="match_constraints">0dp</dimen>
+
     <dimen name="border_height_default">1dp</dimen>
 
     <dimen name="list_item_height_default">80dp</dimen>
 
     <dimen name="text_size_default">14sp</dimen>
+
+    <!-- margin_primary + margin_three_quarters + avatar_size_small -->
+    <dimen name="border_left_margin_with_small_avatar">72dp</dimen>
 
 </resources>
