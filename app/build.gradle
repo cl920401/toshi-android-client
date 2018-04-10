@@ -127,6 +127,7 @@ dependencies {
             "com.android.support:gridlayout-v7:${supportLibVersion}",
             "com.android.support:design:${supportLibVersion}",
             "com.android.support:cardview-v7:${supportLibVersion}",
+            'com.android.support.constraint:constraint-layout:1.0.2',
             'com.android.support:multidex:1.0.0',
             'com.google.android:flexbox:0.2.6',
             // Push notifications
