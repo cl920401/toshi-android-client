@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit
 
 class DappManager(
         private val directoryService: DirectoryInterface = DirectoryService.get(),
-        private val context: Context = BaseApplication.get(),
+        context: Context = BaseApplication.get(),
         private val coinbaseDappVerifier: CoinbaseDappVerifier = CoinbaseDappVerifier(context),
         private val scheduler: Scheduler = Schedulers.io()
 ) {
