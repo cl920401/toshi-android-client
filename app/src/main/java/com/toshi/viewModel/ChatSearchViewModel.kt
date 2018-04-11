@@ -84,7 +84,6 @@ class ChatSearchViewModel(
     private fun searchForUsers(query: String, userType: UserType): Single<SearchResult<UserV2>> {
         return recipientManager
                 .searchForUsers(query, userType.name.toLowerCase())
-
     }
 
     fun search(query: String, userType: UserType) = querySubject.onNext(Pair(query, userType))

@@ -17,7 +17,6 @@
 
 package com.toshi.view.adapter.viewholder
 
-
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.toshi.model.network.user.UserV2
@@ -26,7 +25,7 @@ import kotlinx.android.synthetic.main.list_item__user.view.avatar
 import kotlinx.android.synthetic.main.list_item__user.view.name
 import kotlinx.android.synthetic.main.list_item__user.view.username
 
-class UserViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun setUser(user: UserV2): UserViewHolder {
         itemView.name.text = user.getDisplayName()
