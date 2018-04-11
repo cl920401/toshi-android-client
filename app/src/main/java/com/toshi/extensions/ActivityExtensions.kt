@@ -17,6 +17,8 @@
 
 package com.toshi.extensions
 
+import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Build
 import android.support.annotation.ColorRes
@@ -86,4 +88,8 @@ fun AppCompatActivity.openWebView(address: String) {
             putExtra(JellyBeanWebViewActivity.EXTRA__ADDRESS, address)
         }
     }
+}
+
+inline fun <reified T : ViewModel> AppCompatActivity.getViewModel(): T {
+    return ViewModelProviders.of(this).get(T::class.java)
 }
