@@ -22,7 +22,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import com.toshi.R
-import com.toshi.model.local.User
+import com.toshi.model.network.user.UserV2
 import com.toshi.view.adapter.UserAdapter
 import kotlinx.android.synthetic.main.view_chat_search.view.searchList
 
@@ -52,5 +52,5 @@ class ChatSearchView : FrameLayout {
         }
     }
 
-    fun setUsers(users: List<User>) = userAdapter.setUsers(users)
+    fun setUsers(users: List<UserV2>) = userAdapter.setUsers(users)
 }

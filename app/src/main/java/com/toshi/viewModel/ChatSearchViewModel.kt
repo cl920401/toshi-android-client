@@ -19,7 +19,8 @@ package com.toshi.viewModel
 
 import android.arch.lifecycle.ViewModel
 import com.toshi.manager.RecipientManager
-import com.toshi.model.local.User
+import com.toshi.model.network.user.UserType
+import com.toshi.model.network.user.UserV2
 import com.toshi.util.SingleLiveEvent
 import com.toshi.util.logging.LogUtil
 import com.toshi.view.BaseApplication
@@ -36,27 +37,28 @@ class ChatSearchViewModel(
 ) : ViewModel() {
 
     private val subscriptions by lazy { CompositeSubscription() }
-    private val querySubject by lazy { PublishSubject.create<String>() }
+    private val querySubject by lazy { PublishSubject.create<Pair<String, UserType>>() }
 
-    val searchResults by lazy { SingleLiveEvent<List<User>>() }
+    val searchResults by lazy { SingleLiveEvent<List<UserV2>>() }
 
     init {
         subscribeForQueryChanges()
     }
 
     private fun subscribeForQueryChanges() {
-        val sub = querySubject.debounce(500, TimeUnit.MILLISECONDS)
-                .filter { it.length > 1 }
+        val sub = querySubject
+                .debounce(500, TimeUnit.MILLISECONDS)
+                .filter { it.first.length > 1 }
                 .subscribe(
-                        { runSearchQuery(it) },
+                        { runSearchQuery(it.first, it.second) },
                         { LogUtil.w("Error while listening for query changes $it") }
                 )
 
         subscriptions.add(sub)
     }
 
-    private fun runSearchQuery(query: String) {
-        val searchSub = searchOnlineUsers(query)
+    private fun runSearchQuery(query: String, userType: UserType) {
+        val searchSub = searchForUsers(query, userType)
                 .observeOn(scheduler)
                 .subscribe(
                         { searchResults.value = it },
@@ -66,11 +68,12 @@ class ChatSearchViewModel(
         subscriptions.add(searchSub)
     }
 
-    private fun searchOnlineUsers(query: String): Single<List<User>> {
-        return recipientManager.searchOnlineUsersAndApps(query)
+    private fun searchForUsers(query: String, userType: UserType): Single<List<UserV2>> {
+        return recipientManager
+                .searchForUsers(query, userType.name.toLowerCase())
     }
 
-    fun search(query: CharSequence) = querySubject.onNext(query.toString())
+    fun search(query: String, userType: UserType) = querySubject.onNext(Pair(query, userType))
 
     override fun onCleared() {
         super.onCleared()

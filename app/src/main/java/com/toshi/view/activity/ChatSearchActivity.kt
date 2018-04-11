@@ -22,7 +22,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.toshi.R
 import com.toshi.extensions.getViewModel
-import com.toshi.model.local.User
+import com.toshi.model.network.user.UserType
+import com.toshi.model.network.user.UserV2
 import com.toshi.view.adapter.ChatSearchTabAdapter
 import com.toshi.view.adapter.listeners.TextChangedListener
 import com.toshi.view.custom.ChatSearchView
@@ -68,9 +69,23 @@ class ChatSearchActivity : AppCompatActivity() {
     private fun initTextListener() {
         search.addTextChangedListener(object : TextChangedListener() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s != null) viewModel.search(s)
+                handleSearchQuery(s.toString())
             }
         })
+    }
+
+    private fun handleSearchQuery(query: String) {
+        val currentViewPosition = viewPager.currentItem
+        val type = getTypeFromPosition(currentViewPosition)
+        viewModel.search(query, type)
+    }
+
+    private fun getTypeFromPosition(viewPosition: Int): UserType {
+        return when (viewPosition) {
+            0 -> UserType.USER
+            1 -> UserType.BOT
+            else -> UserType.GROUP
+        }
     }
 
     private fun initObservers() {
@@ -79,7 +94,7 @@ class ChatSearchActivity : AppCompatActivity() {
         })
     }
 
-    private fun addSearchResult(users: List<User>) {
+    private fun addSearchResult(users: List<UserV2>) {
         val positionOfCurrentView = viewPager.currentItem
         val view = viewPager.findViewById<ChatSearchView>(positionOfCurrentView)
         view.setUsers(users)
