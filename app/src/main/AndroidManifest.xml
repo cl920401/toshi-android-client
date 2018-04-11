@@ -120,6 +120,7 @@
         <activity android:name=".view.activity.ViewERC721TokensActivity" />
         <activity android:name=".view.activity.SendETHActivity" />
         <activity android:name=".view.activity.ViewAllDappsActivity" />
+        <activity android:name=".view.activity.ChatSearchActivity" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
