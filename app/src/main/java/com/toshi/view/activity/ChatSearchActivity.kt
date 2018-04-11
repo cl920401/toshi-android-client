@@ -22,6 +22,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.toshi.R
 import com.toshi.extensions.getViewModel
+import com.toshi.extensions.startActivity
 import com.toshi.model.network.user.UserType
 import com.toshi.model.network.user.UserV2
 import com.toshi.view.adapter.ChatSearchTabAdapter
@@ -60,10 +61,19 @@ class ChatSearchActivity : AppCompatActivity() {
                 getString(R.string.bots),
                 getString(R.string.groups)
         )
-        tabAdapter = ChatSearchTabAdapter(this, tabs, { handleAdapterUpdated(it) })
+        tabAdapter = ChatSearchTabAdapter(
+                context = this,
+                tabs = tabs,
+                onUserClickedListener = { handleUserClicked(it) },
+                onItemUpdatedListener = { handleAdapterUpdated(it) }
+        )
         viewPager.adapter = tabAdapter
         viewPager.offscreenPageLimit = 3
         tabLayout.setupWithViewPager(viewPager)
+    }
+
+    private fun handleUserClicked(user: UserV2) {
+        startActivity<ChatActivity> { putExtra(ChatActivity.EXTRA__THREAD_ID, user.toshiId) }
     }
 
     private fun handleAdapterUpdated(position: Int) {

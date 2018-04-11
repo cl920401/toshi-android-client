@@ -21,16 +21,19 @@ import android.content.Context
 import android.support.v4.view.PagerAdapter
 import android.view.View
 import android.view.ViewGroup
+import com.toshi.model.network.user.UserV2
 import com.toshi.view.custom.ChatSearchView
 
 class ChatSearchTabAdapter(
         private val context: Context,
         private val tabs: List<String>,
-        private val onItemUpdatedListener: (Int) -> Unit
+        private val onItemUpdatedListener: (Int) -> Unit,
+        private val onUserClickedListener: (UserV2) -> Unit
 ) : PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = ChatSearchView(context)
+        view.onUserClickListener = onUserClickedListener
         view.id = position
         container.addView(view)
         onItemUpdatedListener(position)

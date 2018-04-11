@@ -38,6 +38,7 @@ class ChatSearchView : FrameLayout {
     }
 
     private lateinit var userAdapter: UserAdapter
+    var onUserClickListener: ((UserV2) -> Unit)? = null
 
     private fun init() {
         inflate(context, R.layout.view_chat_search, this)
@@ -45,7 +46,9 @@ class ChatSearchView : FrameLayout {
     }
 
     private fun initRecyclerView() {
-        userAdapter = UserAdapter({  })
+        userAdapter = UserAdapter(
+                onItemClickListener = { onUserClickListener?.invoke(it) }
+        )
         searchList.apply {
             adapter = userAdapter
             layoutManager = LinearLayoutManager(context)
