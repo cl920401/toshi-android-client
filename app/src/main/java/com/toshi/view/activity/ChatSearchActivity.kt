@@ -60,10 +60,27 @@ class ChatSearchActivity : AppCompatActivity() {
                 getString(R.string.bots),
                 getString(R.string.groups)
         )
-        tabAdapter = ChatSearchTabAdapter(tabs, this)
+        tabAdapter = ChatSearchTabAdapter(this, tabs, { handleAdapterUpdated(it) })
         viewPager.adapter = tabAdapter
         viewPager.offscreenPageLimit = 3
         tabLayout.setupWithViewPager(viewPager)
+    }
+
+    private fun handleAdapterUpdated(position: Int) {
+        when (position) {
+            0 -> {
+                val userSearchResult = viewModel.userSearchResults.value ?: emptyList()
+                if (userSearchResult.isNotEmpty()) addSearchResult(userSearchResult, UserType.USER)
+            }
+            1 -> {
+                val botSearchResult = viewModel.botsSearchResults.value ?: emptyList()
+                if (botSearchResult.isNotEmpty()) addSearchResult(botSearchResult, UserType.BOT)
+            }
+            2 -> {
+                val groupSearchResult = viewModel.groupSearchResults.value ?: emptyList()
+                if (groupSearchResult.isNotEmpty()) addSearchResult(groupSearchResult, UserType.GROUP)
+            }
+        }
     }
 
     private fun initTextListener() {
