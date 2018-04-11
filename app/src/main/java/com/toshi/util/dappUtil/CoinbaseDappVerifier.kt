@@ -41,13 +41,7 @@ class CoinbaseDappVerifier(
         }
     }
 
-    private fun findValidCoinbaseDapp(dapps: List<Dapp>): Dapp? {
-        return try {
-            dapps.first { isValidHost(it.url) }
-        } catch (e: NoSuchElementException) {
-            null
-        }
-    }
+    private fun findValidCoinbaseDapp(dapps: List<Dapp>): Dapp? = dapps.firstOrNull { isValidHost(it.url) }
 
     private fun updateUrlWithPaymentAddress(dapps: MutableList<Dapp>, validCoinbaseDapp: Dapp, paymentAddress: String) {
         val index = dapps.indexOf(validCoinbaseDapp)
