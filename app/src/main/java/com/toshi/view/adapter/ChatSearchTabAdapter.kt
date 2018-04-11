@@ -19,6 +19,7 @@ package com.toshi.view.adapter
 
 import android.content.Context
 import android.support.v4.view.PagerAdapter
+import android.support.v4.view.ViewPager
 import android.view.View
 import android.view.ViewGroup
 import com.toshi.view.custom.ChatSearchView

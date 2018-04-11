@@ -17,15 +17,23 @@
 
 package com.toshi.view.activity
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.toshi.R
+import com.toshi.extensions.getViewModel
+import com.toshi.model.local.User
 import com.toshi.view.adapter.ChatSearchTabAdapter
-import kotlinx.android.synthetic.main.fragment_wallet.tabLayout
-import kotlinx.android.synthetic.main.fragment_wallet.viewPager
+import com.toshi.view.adapter.listeners.TextChangedListener
+import com.toshi.view.custom.ChatSearchView
+import com.toshi.viewModel.ChatSearchViewModel
+import kotlinx.android.synthetic.main.activity_chat_search.search
+import kotlinx.android.synthetic.main.activity_chat_search.tabLayout
+import kotlinx.android.synthetic.main.activity_chat_search.viewPager
 
 class ChatSearchActivity : AppCompatActivity() {
 
+    private lateinit var viewModel: ChatSearchViewModel
     private lateinit var tabAdapter: ChatSearchTabAdapter
 
     override fun onCreate(inState: Bundle?) {
@@ -35,7 +43,14 @@ class ChatSearchActivity : AppCompatActivity() {
     }
 
     private fun init() {
+        initViewModel()
         initAdapter()
+        initTextListener()
+        initObservers()
+    }
+
+    private fun initViewModel() {
+        viewModel = getViewModel()
     }
 
     private fun initAdapter() {
@@ -46,6 +61,27 @@ class ChatSearchActivity : AppCompatActivity() {
         )
         tabAdapter = ChatSearchTabAdapter(tabs, this)
         viewPager.adapter = tabAdapter
+        viewPager.offscreenPageLimit = 3
         tabLayout.setupWithViewPager(viewPager)
+    }
+
+    private fun initTextListener() {
+        search.addTextChangedListener(object : TextChangedListener() {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s != null) viewModel.search(s)
+            }
+        })
+    }
+
+    private fun initObservers() {
+        viewModel.searchResults.observe(this, Observer {
+            if (it != null) addSearchResult(it)
+        })
+    }
+
+    private fun addSearchResult(users: List<User>) {
+        val positionOfCurrentView = viewPager.currentItem
+        val view = viewPager.findViewById<ChatSearchView>(positionOfCurrentView)
+        view.setUsers(users)
     }
 }

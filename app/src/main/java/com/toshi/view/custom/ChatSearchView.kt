@@ -18,9 +18,13 @@
 package com.toshi.view.custom
 
 import android.content.Context
+import android.support.v7.widget.LinearLayoutManager
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import com.toshi.R
+import com.toshi.model.local.User
+import com.toshi.view.adapter.UserAdapter
+import kotlinx.android.synthetic.main.view_chat_search.view.searchList
 
 class ChatSearchView : FrameLayout {
     constructor(context: Context) : super(context) {
@@ -33,5 +37,20 @@ class ChatSearchView : FrameLayout {
         init()
     }
 
-    private fun init() = inflate(context, R.layout.view_chat_search, this)
+    private lateinit var userAdapter: UserAdapter
+
+    private fun init() {
+        inflate(context, R.layout.view_chat_search, this)
+        initRecyclerView()
+    }
+
+    private fun initRecyclerView() {
+        userAdapter = UserAdapter({  })
+        searchList.apply {
+            adapter = userAdapter
+            layoutManager = LinearLayoutManager(context)
+        }
+    }
+
+    fun setUsers(users: List<User>) = userAdapter.setUsers(users)
 }
