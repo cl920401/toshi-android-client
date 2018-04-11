@@ -21,8 +21,13 @@ import java.util.List;
 
 public class SearchResult<T> {
     private List<T> results;
+    private String query;
 
     public List<T> getResults() {
         return this.results;
+    }
+
+    public String getQuery() {
+        return this.query;
     }
 }

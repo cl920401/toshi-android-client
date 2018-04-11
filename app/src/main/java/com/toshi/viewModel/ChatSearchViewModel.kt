@@ -17,11 +17,12 @@
 
 package com.toshi.viewModel
 
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.toshi.manager.RecipientManager
+import com.toshi.model.network.SearchResult
 import com.toshi.model.network.user.UserType
 import com.toshi.model.network.user.UserV2
-import com.toshi.util.SingleLiveEvent
 import com.toshi.util.logging.LogUtil
 import com.toshi.view.BaseApplication
 import rx.Scheduler
@@ -39,7 +40,9 @@ class ChatSearchViewModel(
     private val subscriptions by lazy { CompositeSubscription() }
     private val querySubject by lazy { PublishSubject.create<Pair<String, UserType>>() }
 
-    val searchResults by lazy { SingleLiveEvent<List<UserV2>>() }
+    val userSearchResults by lazy { MutableLiveData<List<UserV2>>() }
+    val botsSearchResults by lazy { MutableLiveData<List<UserV2>>() }
+    val groupSearchResults by lazy { MutableLiveData<List<UserV2>>() }
 
     init {
         subscribeForQueryChanges()
@@ -61,19 +64,46 @@ class ChatSearchViewModel(
         val searchSub = searchForUsers(query, userType)
                 .observeOn(scheduler)
                 .subscribe(
-                        { searchResults.value = it },
+                        { handleResponse(it) },
                         { LogUtil.w("Error while search for user $it") }
                 )
 
         subscriptions.add(searchSub)
     }
 
-    private fun searchForUsers(query: String, userType: UserType): Single<List<UserV2>> {
+    private fun handleResponse(searchResult: SearchResult<UserV2>) {
+        val searchQuery = searchResult.query
+        val result = searchResult.results
+        when {
+            searchQuery.contains(UserType.USER.name.toLowerCase()) -> userSearchResults.value = result
+            searchQuery.contains(UserType.BOT.name.toLowerCase()) -> botsSearchResults.value = result
+            searchQuery.contains(UserType.GROUP.name.toLowerCase()) -> groupSearchResults.value = result
+        }
+    }
+
+    private fun searchForUsers(query: String, userType: UserType): Single<SearchResult<UserV2>> {
         return recipientManager
                 .searchForUsers(query, userType.name.toLowerCase())
+
     }
 
     fun search(query: String, userType: UserType) = querySubject.onNext(Pair(query, userType))
+
+    fun getTypeFromPosition(viewPosition: Int): UserType {
+        return when (viewPosition) {
+            0 -> UserType.USER
+            1 -> UserType.BOT
+            else -> UserType.GROUP
+        }
+    }
+
+    fun getPositionFromType(type: UserType): Int {
+        return when (type) {
+            UserType.USER -> 0
+            UserType.BOT -> 1
+            else -> 2
+        }
+    }
 
     override fun onCleared() {
         super.onCleared()

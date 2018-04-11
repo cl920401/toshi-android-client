@@ -76,27 +76,25 @@ class ChatSearchActivity : AppCompatActivity() {
 
     private fun handleSearchQuery(query: String) {
         val currentViewPosition = viewPager.currentItem
-        val type = getTypeFromPosition(currentViewPosition)
+        val type = viewModel.getTypeFromPosition(currentViewPosition)
         viewModel.search(query, type)
     }
 
-    private fun getTypeFromPosition(viewPosition: Int): UserType {
-        return when (viewPosition) {
-            0 -> UserType.USER
-            1 -> UserType.BOT
-            else -> UserType.GROUP
-        }
-    }
-
     private fun initObservers() {
-        viewModel.searchResults.observe(this, Observer {
-            if (it != null) addSearchResult(it)
+        viewModel.userSearchResults.observe(this, Observer {
+            if (it != null) addSearchResult(it, UserType.USER)
+        })
+        viewModel.botsSearchResults.observe(this, Observer {
+            if (it != null) addSearchResult(it, UserType.BOT)
+        })
+        viewModel.groupSearchResults.observe(this, Observer {
+            if (it != null) addSearchResult(it, UserType.GROUP)
         })
     }
 
-    private fun addSearchResult(users: List<UserV2>) {
-        val positionOfCurrentView = viewPager.currentItem
-        val view = viewPager.findViewById<ChatSearchView>(positionOfCurrentView)
-        view.setUsers(users)
+    private fun addSearchResult(users: List<UserV2>, type: UserType) {
+        val positionOfView = viewModel.getPositionFromType(type)
+        val view = viewPager.findViewById<ChatSearchView>(positionOfView)
+        view?.setUsers(users)
     }
 }
