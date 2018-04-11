@@ -24,12 +24,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.toshi.R
+import com.toshi.extensions.startActivity
 import com.toshi.extensions.startExternalActivity
 import com.toshi.util.KeyboardUtil
+import com.toshi.view.activity.ChatSearchActivity
 import com.toshi.view.activity.ConversationSetupActivity
 import kotlinx.android.synthetic.main.fragment_user_participants.closeButton
 import kotlinx.android.synthetic.main.fragment_user_participants.inviteFriend
 import kotlinx.android.synthetic.main.fragment_user_participants.newGroup
+import kotlinx.android.synthetic.main.fragment_user_participants.search
 
 class UserParticipantsFragment : Fragment() {
 
@@ -47,6 +50,7 @@ class UserParticipantsFragment : Fragment() {
         closeButton.setOnClickListener { handleCloseClicked(it) }
         newGroup.setOnClickListener { handleNewGroupClicked() }
         inviteFriend.setOnClickListener { handleInviteFriends() }
+        search.setOnClickListener { startActivity<ChatSearchActivity>() }
     }
 
     private fun handleCloseClicked(v: View?) {

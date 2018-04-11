@@ -20,11 +20,32 @@ package com.toshi.view.activity
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.toshi.R
+import com.toshi.view.adapter.ChatSearchTabAdapter
+import kotlinx.android.synthetic.main.fragment_wallet.tabLayout
+import kotlinx.android.synthetic.main.fragment_wallet.viewPager
 
 class ChatSearchActivity : AppCompatActivity() {
+
+    private lateinit var tabAdapter: ChatSearchTabAdapter
 
     override fun onCreate(inState: Bundle?) {
         super.onCreate(inState)
         setContentView(R.layout.activity_chat_search)
+        init()
+    }
+
+    private fun init() {
+        initAdapter()
+    }
+
+    private fun initAdapter() {
+        val tabs = listOf(
+                getString(R.string.users),
+                getString(R.string.bots),
+                getString(R.string.groups)
+        )
+        tabAdapter = ChatSearchTabAdapter(tabs, this)
+        viewPager.adapter = tabAdapter
+        tabLayout.setupWithViewPager(viewPager)
     }
 }
