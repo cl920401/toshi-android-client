@@ -22,6 +22,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import com.toshi.R
+import com.toshi.extensions.addHorizontalLineDivider
 import com.toshi.model.network.user.UserV2
 import com.toshi.view.adapter.UserAdapter
 import kotlinx.android.synthetic.main.view_chat_search.view.searchList
@@ -52,6 +53,7 @@ class ChatSearchView : FrameLayout {
         searchList.apply {
             adapter = userAdapter
             layoutManager = LinearLayoutManager(context)
+            addHorizontalLineDivider()
         }
     }
 

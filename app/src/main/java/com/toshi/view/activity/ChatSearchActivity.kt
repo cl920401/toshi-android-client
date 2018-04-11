@@ -29,6 +29,7 @@ import com.toshi.view.adapter.ChatSearchTabAdapter
 import com.toshi.view.adapter.listeners.TextChangedListener
 import com.toshi.view.custom.ChatSearchView
 import com.toshi.viewModel.ChatSearchViewModel
+import kotlinx.android.synthetic.main.activity_chat_search.closeButton
 import kotlinx.android.synthetic.main.activity_chat_search.search
 import kotlinx.android.synthetic.main.activity_chat_search.tabLayout
 import kotlinx.android.synthetic.main.activity_chat_search.viewPager
@@ -47,6 +48,7 @@ class ChatSearchActivity : AppCompatActivity() {
     private fun init() {
         initViewModel()
         initAdapter()
+        initClickListeners()
         initTextListener()
         initObservers()
     }
@@ -91,6 +93,10 @@ class ChatSearchActivity : AppCompatActivity() {
                 if (groupSearchResult.isNotEmpty()) addSearchResult(groupSearchResult, UserType.GROUP)
             }
         }
+    }
+
+    private fun initClickListeners() {
+        closeButton.setOnClickListener { finish() }
     }
 
     private fun initTextListener() {
