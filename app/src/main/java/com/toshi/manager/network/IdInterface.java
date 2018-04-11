@@ -24,6 +24,7 @@ import com.toshi.model.network.SearchResult;
 import com.toshi.model.network.ServerTime;
 import com.toshi.model.network.UserDetails;
 import com.toshi.model.network.UserSearchResults;
+import com.toshi.model.network.user.UserV2;
 
 import java.util.List;
 
@@ -97,5 +98,11 @@ public interface IdInterface {
                                        @Query("top") boolean isTopRated,
                                        @Query("recent") boolean isRecent,
                                        @Query("limit") int limit);
+
+    @GET("/v2/search/")
+    Single<SearchResult<UserV2>> search(
+            @Query("type") String type,
+            @Query("query") String query
+    );
 }
 
