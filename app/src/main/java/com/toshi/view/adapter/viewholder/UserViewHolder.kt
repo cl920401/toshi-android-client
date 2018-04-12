@@ -27,15 +27,13 @@ import kotlinx.android.synthetic.main.list_item__user.view.username
 
 class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    fun setUser(user: UserV2): UserViewHolder {
+    fun setUser(user: UserV2) {
         itemView.name.text = user.getDisplayName()
         itemView.username.text = user.username
         ImageUtil.load(user.avatar, itemView.avatar)
-        return this
     }
 
-    fun setOnItemClickListener(onItemClickListener: (UserV2) -> Unit, user: UserV2): UserViewHolder {
+    fun setOnItemClickListener(onItemClickListener: (UserV2) -> Unit, user: UserV2) {
         itemView.setOnClickListener { onItemClickListener(user) }
-        return this
     }
 }

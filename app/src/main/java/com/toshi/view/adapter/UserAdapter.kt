@@ -43,8 +43,10 @@ class UserAdapter(
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val user = users[position]
-        holder.setUser(user)
-                .setOnItemClickListener(onItemClickListener, user)
+        holder.apply {
+            setUser(user)
+            setOnItemClickListener(onItemClickListener, user)
+        }
     }
 
     override fun getItemCount(): Int = users.size
