@@ -93,7 +93,7 @@ class RecentFragment : TopLevelFragment() {
     }
 
     private fun initClickListeners() {
-        add.setOnClickListener { startActivity<ChatSearchActivity>() }
+        add.setOnClickListener { startActivity<ConversationSetupActivity>() }
     }
 
     private fun restoreScrollPosition(inState: Bundle?) {
@@ -104,7 +104,7 @@ class RecentFragment : TopLevelFragment() {
 
     private fun initCompoundAdapter() {
         val searchHeaderAdapter = SearchHeaderAdapter(
-                { startActivity<ConversationSetupActivity>() }
+                { startActivity<ChatSearchActivity> { putExtra(ChatSearchActivity.TYPE, ChatSearchActivity.VIEW_PROFILE) } }
         )
         conversationRequestsAdapter = ConversationRequestsAdapter(
                 { startActivity<ConversationRequestActivity>() }

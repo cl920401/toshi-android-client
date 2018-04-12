@@ -28,6 +28,8 @@ import com.toshi.extensions.startActivity
 import com.toshi.extensions.startExternalActivity
 import com.toshi.util.KeyboardUtil
 import com.toshi.view.activity.ChatSearchActivity
+import com.toshi.view.activity.ChatSearchActivity.Companion.CHAT
+import com.toshi.view.activity.ChatSearchActivity.Companion.TYPE
 import com.toshi.view.activity.ConversationSetupActivity
 import kotlinx.android.synthetic.main.fragment_user_participants.closeButton
 import kotlinx.android.synthetic.main.fragment_user_participants.inviteFriend
@@ -50,7 +52,7 @@ class UserParticipantsFragment : Fragment() {
         closeButton.setOnClickListener { handleCloseClicked(it) }
         newGroup.setOnClickListener { handleNewGroupClicked() }
         inviteFriend.setOnClickListener { handleInviteFriends() }
-        search.setOnClickListener { startActivity<ChatSearchActivity>() }
+        search.setOnClickListener { startActivity<ChatSearchActivity> { putExtra(TYPE, CHAT) } }
     }
 
     private fun handleCloseClicked(v: View?) {

@@ -36,6 +36,12 @@ import kotlinx.android.synthetic.main.activity_chat_search.viewPager
 
 class ChatSearchActivity : AppCompatActivity() {
 
+    companion object {
+        const val TYPE = "type"
+        const val CHAT = "chat"
+        const val VIEW_PROFILE = "viewProfile"
+    }
+
     private lateinit var viewModel: ChatSearchViewModel
     private lateinit var tabAdapter: ChatSearchTabAdapter
 
@@ -75,8 +81,14 @@ class ChatSearchActivity : AppCompatActivity() {
     }
 
     private fun handleUserClicked(user: UserV2) {
-        startActivity<ChatActivity> { putExtra(ChatActivity.EXTRA__THREAD_ID, user.toshiId) }
+        val viewType = getViewType()
+        when (viewType) {
+            CHAT -> startActivity<ChatActivity> { putExtra(ChatActivity.EXTRA__THREAD_ID, user.toshiId) }
+            else -> startActivity<ViewUserActivity> { putExtra(ViewUserActivity.EXTRA__USER_ADDRESS, user.toshiId) }
+        }
     }
+
+    private fun getViewType() = intent.getStringExtra(TYPE) ?: VIEW_PROFILE
 
     private fun handleAdapterUpdated(position: Int) {
         when (position) {
