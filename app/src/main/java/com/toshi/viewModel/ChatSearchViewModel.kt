@@ -65,7 +65,7 @@ class ChatSearchViewModel(
                 .observeOn(scheduler)
                 .subscribe(
                         { handleResponse(it) },
-                        { LogUtil.w("Error while search for user $it") }
+                        { LogUtil.w("Error while searching for users $it") }
                 )
 
         subscriptions.add(searchSub)
