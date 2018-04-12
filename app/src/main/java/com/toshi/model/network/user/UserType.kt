@@ -20,7 +20,7 @@ package com.toshi.model.network.user
 import com.squareup.moshi.Json
 
 enum class UserType {
-    @Json(name = "user") USER(),
-    @Json(name = "bot") BOT(),
-    @Json(name = "group") GROUP()
+    @Json(name = "user") USER,
+    @Json(name = "bot") BOT,
+    @Json(name = "group") GROUP
 }
